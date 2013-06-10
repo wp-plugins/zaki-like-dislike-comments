@@ -1,0 +1,23 @@
+div.zaki_like_dislike_box {
+    margin: 0 0 10px 0;
+    border: 1px solid #ccc;
+    padding: 5px;
+    width: 120px;
+}
+    div.zaki_like_dislike_box > div.zaki_like_dislike,
+    div.zaki_like_dislike_box > div.zaki_like_dislike_count {
+        float:left;
+        margin:0 5px 0 5px;
+    }
+    
+    div.zaki_like_dislike_box > div.zaki_like_dislike > span {
+        margin: 0 0 0 5px;
+    }
+    
+    div.zaki_like_dislike_box > div.zaki_like_dislike_count {
+        line-height: 25px;
+    }
+
+    div.zaki_like_dislike_box > div.zaki_like_dislike {
+        cursor: pointer;
+    }
