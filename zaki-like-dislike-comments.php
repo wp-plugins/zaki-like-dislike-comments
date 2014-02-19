@@ -1,22 +1,23 @@
 <?php
 /*
 Plugin Name: Zaki Like Dislike Comments
-Description: This plugin implements a "like/dislike" rating system for comments
+Description: Add  a like / dislike rate system for comments
 Author: Zaki Design
-Version: 1.0
+Version: 1.1
 Author URI: http://www.zaki.it
 */
 
 define('ZAKI_LIKE_DISLIKE_FILE',__FILE__);
 
 // Classe main
+require_once plugin_dir_path(ZAKI_LIKE_DISLIKE_FILE).'classes/class-zaki-plugins.php';
 require_once plugin_dir_path(ZAKI_LIKE_DISLIKE_FILE).'classes/class-zaki-like-dislike.php';
 
 // Hooks & Init
 add_action('admin_init', 'ZakiLikeDislike_SettingsInit');
 add_action('admin_menu', 'ZakiLikeDislike_AddMenuPages');
 register_activation_hook(ZAKI_LIKE_DISLIKE_FILE, 'ZakiLikeDislike_Activation');
-register_uninstall_hook( ZAKI_LIKE_DISLIKE_FILE, 'ZakiLikeDislike_Uninstall');
+register_deactivation_hook( ZAKI_LIKE_DISLIKE_FILE, 'ZakiLikeDislike_Deactivation');
 
 // Activation plugin
 function ZakiLikeDislike_Activation() {
@@ -34,18 +35,16 @@ function ZakiLikeDislike_Activation() {
         ) ENGINE = MYISAM;");
     
     // Init options
-    if(!get_option('zaki_like_dislike_options')) :
-        $settings = array(
-            "usecss" => 1,
-            "display_type" => "compact",
-            "show" => 1
-        );
-        update_option('zaki_like_dislike_options', $settings);
-    endif;
+    $settings = array(
+        "usecss" => 1,
+        "display_type" => "compact",
+        "show" => 1
+    );
+    update_option('zaki_like_dislike_options', $settings);
 }
 
-// Uninstall plugin
-function ZakiLikeDislike_Uninstall() {
+// Deactivation plugin
+function ZakiLikeDislike_Deactivation() {
 
     // Uninstall db table
     global $wpdb;
@@ -138,8 +137,20 @@ function ZakiLikeDislike_PageSetting_Section_Main_Callback() {
 
 // Inizializzazione pagine menu
 function ZakiLikeDislike_AddMenuPages() {
-    add_menu_page(__('Zaki Like Dislike Comments','zaki'),__('Zaki Like Dislike Comments','zaki'),'manage_options','zaki-like-dislike','ZakiLikeDislike_PageSettingHtml');
-    add_submenu_page('zaki-like-dislike',__('Credits','zaki'),__('Credits','zaki'),'manage_options','zaki-like-dislike-credits','ZakiLikeDislike_SubPageCreditsHtml');
+
+    //Controllo ed eventualmente includo il menu principale
+    ZakiPlugins::checkMainMenu();
+            
+    // Pagine del plugins
+    add_submenu_page(
+        'zaki',
+        __('Like Dislike Comments','zaki'),
+        __('Like Dislike Comments','zaki'),
+        'manage_options',
+        'zaki-like-dislike',
+        'ZakiLikeDislike_PageSettingHtml'
+    );
+    
 }
 
 // HTML Pagina principale di settaggio (main)
@@ -160,15 +171,6 @@ function ZakiLikeDislike_PageSettingHtml() {
     <?php
 }
 
-// HTML Pagina dei credits Zaki
-function ZakiLikeDislike_SubPageCreditsHtml() {
-    ?>  
-    <div class="wrap zaki_like_dislike_page zaki_like_dislike_page_credits">
-        <?php screen_icon('options-general'); ?><h2><?=__('Zaki Like Dislike Comments','zaki')?> - <?=__('Credits','zaki')?></h2>
-        <p>Developed by <a target="_blank" href="http://www.zaki.it">Zaki Design</a></p>
-    </div>
-    <?php
-}
 
 // Controllo inclusione CSS Frontend
 function ZakiLikeDislike_CheckCssFrontendInclude() {
