@@ -3,8 +3,8 @@ Contributors: r.conte
 Donate link: http://www.zaki.it
 Tags: posts, comments, rate, vote, like, dislike
 Requires at least: 3.3
-Tested up to: 3.5.1
-Stable tag: 1.1
+Tested up to: 4.1
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,6 +26,9 @@ This plugin implements a "like/dislike" rating system for comments. In the setti
 Yes! We are working for image customization and additional custom text for "like / dislike" button.
 
 == Changelog ==
+
+= 1.2 =
+* (Fix) Added 'the_content' filter to comments content (Thanks to martin.kreativermoment)
 
 = 1.1 =
 * (Add) Added Zaki Plugins new features

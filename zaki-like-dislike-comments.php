@@ -3,7 +3,7 @@
 Plugin Name: Zaki Like Dislike Comments
 Description: Add  a like / dislike rate system for comments
 Author: Zaki Design
-Version: 1.1
+Version: 1.2
 Author URI: http://www.zaki.it
 */
 
@@ -188,7 +188,7 @@ function ZakiLikeDislike_AddPluginHml($content) {
     if($settings['show']) : 
         echo ZakiLikeDislike::getLikeDislikeHtml();
     endif;
-    echo $content;
+    echo apply_filters( 'the_content', $content );
 }
 add_action('comment_text','ZakiLikeDislike_AddPluginHml');
 
